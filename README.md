@@ -9,4 +9,9 @@ Simulates a Web tracking server.
 `npm run webapp`
 
 Simulates a Web API serving news.
-For each delivered news article, will communicate referer to the tracker.
+<br>For each delivered news article, will communicate referer to the tracker.
+
+`npm run webclient`
+
+Simulates a Web client asking for available news and choosing random articles.
+<br>Web client will continuously pull the webapp for news.
