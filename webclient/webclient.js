@@ -32,19 +32,19 @@ function getArticle(hash){
 function simulateChoose(){
     getNews()
     .then(function(news){
-        if (news){
-            console.log("choosing in a list of %s articles...", news.length)
+        if (news.length){
+            console.log("CLIENT choosing in a list of %s articles...", news.length)
             var newsidx = Math.floor(Math.random() * (news.length - 1))
-            console.log("choosing article: "+ news[newsidx].title)
+            console.log("CLIENT choosing article: "+ news[newsidx].title)
             return getArticle(news[newsidx].hash)
             .then(function(article){
-                console.log("reading my article...")
+                console.log("CLIENT reading article...")
             })
         }
-        console.log("no news to choose. going away...")
+        console.log("CLIENT no news to choose. going away...")
     })
     .catch(function(err){
-        console.log("could not load news due to: %s", err)
+        console.log("CLIENT could not load news due to: %s", err)
     })
 }
 
