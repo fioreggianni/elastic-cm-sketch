@@ -9,7 +9,7 @@ var request = require("request")
 const querystring = require("querystring")
 var crypto = require('crypto');
 var cacheManager = require('cache-manager')
-require('array.prototype.find').shim();
+require('array.prototype.find').shim()
 
 var memoryCache = cacheManager.caching({ 
     store: 'memory', 
@@ -66,7 +66,9 @@ function download(){
     config.newsapi.sources.forEach(function(source){
         Promise
         .all([pull(source), getCached(source)])
-        .then(([downloaded, cached]) => {
+        .then(function(results) {
+            var downloaded = results[0]
+            var cached = results[1]
             if (downloaded) {
                 downloaded.forEach(function(news){
                     var hash = S(crypto.createHash('md5')

@@ -1,8 +1,20 @@
 var S = require("string")
+
+function getUrl(uri){
+	return S("{{protocol}}://{{host}}:{{port}}/{{suffix}}").template(uri)
+}
 module.exports = {
 	webapp: {
 		app: {
-			name: "Weber"
+			name: "Weber",
+			uri: {
+				protocol: "http",
+				host: "127.0.0.1",
+				port: 8080,
+				full: function(){
+					return getUrl(this)
+				}
+			}
 		},
 		defaults: {
 			news: {
@@ -16,9 +28,24 @@ module.exports = {
 			url: {
 				protocol: "http",
 				host: "newsapi.org",
+				port: 80,
 				version: "v1",
 				full: function(){
-					return S("{{protocol}}://{{host}}/{{version}}").template(this)
+					this.suffix = "/"+this.version;
+					return getUrl(this)
+				}
+			}
+		}
+	},
+	tracker: {
+		app: {
+			name: "Connor",
+			uri: {
+				protocol: "http",
+				host: "127.0.0.1",
+				port: 3000,
+				full: function(){
+					return getUrl(this)
 				}
 			}
 		}
