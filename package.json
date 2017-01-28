@@ -16,7 +16,8 @@
   "devDependencies": {},
   "scripts": {
     "webapp": "node webapp/webapp.js",
-    "tracker": "node tracking/coordinator.js"
+    "tracker": "node tracking/coordinator.js",
+    "webclient": "node webclient/webclient.js"
   },
   "repository": {
     "type": "git",
