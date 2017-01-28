@@ -1,7 +1,7 @@
 var S = require("string")
 
 function getUrl(uri){
-	return S("{{protocol}}://{{host}}:{{port}}/{{suffix}}").template(uri)
+	return S("{{protocol}}://{{host}}:{{port}}{{suffix}}").template(uri)
 }
 module.exports = {
 	webapp: {

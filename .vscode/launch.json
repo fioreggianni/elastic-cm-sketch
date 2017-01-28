@@ -5,10 +5,29 @@
     "version": "0.2.0",
     "configurations": [
          {
-            "name": "Launch",
+            "name": "webapp",
             "type": "node",
             "request": "launch",
             "program": "${workspaceRoot}/webapp/webapp.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+            },
+            "externalConsole": false,
+            "sourceMaps": false,
+            "outDir": null
+        },
+        {
+            "name": "webclient",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/webclient/webclient.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",

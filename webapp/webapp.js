@@ -14,8 +14,7 @@ function track(id, referer){
             id: id,
 			referer: referer
         }
-		console.log(config.tracker.app.uri.full())
-        return request(S("{{baseurl}}track?{{params}}").template({
+        return request(S("{{baseurl}}/track?{{params}}").template({
             baseurl: config.tracker.app.uri.full(),
             params: querystring.stringify(params)
         }).s, 
