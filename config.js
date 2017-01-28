@@ -49,5 +49,15 @@ module.exports = {
 				}
 			}
 		}
+	},
+	webclient: {
+		app: {
+			name: "Clienton"
+		},
+		defaults: {
+			activity: {
+				interval: 100 /* milliseconds */
+			}
+		}
 	}
 }

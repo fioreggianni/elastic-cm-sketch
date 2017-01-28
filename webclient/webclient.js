@@ -49,4 +49,4 @@ function simulateChoose(){
 }
 
 simulateChoose()
-setInterval(simulateChoose, 100)
+setInterval(simulateChoose, config.webclient.defaults.activity.interval)
