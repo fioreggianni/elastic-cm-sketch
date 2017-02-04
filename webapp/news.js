@@ -17,15 +17,42 @@ var memoryCache = cacheManager.caching({
     ttl: 600 /*seconds*/
 })
 
-function titles(source){
-    return getCached(source);
+function getNews(source){
+    return new Promise(function(resolve, reject){
+        getCached(source)
+        .then(function(ids){
+            var promises = []
+            //console.log("result from getCached(%s): %s", source, JSON.stringify(ids))
+            ids.forEach(function(id){
+                promises.push(get(id))
+            })
+            Promise
+            .all(promises)
+            .then(function(results){
+                //console.log("cached news: "+JSON.stringify(results))
+                return resolve(results)
+            })
+            .catch(function(err){
+                console.log("could not resolve all get promises: %s", err)
+                return reject(err)
+            })
+        })
+        .catch(reject);
+    })
+
 }
 
 function get(id){
     return new Promise(function(resolve, reject){
-        return memoryCache.get(id, function(err, result){
-            if (err || !result) return reject()
+        return memoryCache
+        .get(id)
+        .then(function(result){
+            //console.log("result is %s", JSON.stringify(result))
             return resolve(JSON.parse(result))
+        })
+        .catch(function(err){
+            console.log("could not get id %s due to %s", JSON.stringify(id), err)
+            return reject(err)
         })
     })
 }
@@ -56,9 +83,26 @@ function pull(source) {
 
 function getCached(source){
     return new Promise(function(resolve, reject){
-        return memoryCache.get(source, function(err, result){
-            return resolve( (err || !result) ? [] : JSON.parse(result))
+        return memoryCache
+        .get(source)
+        .then(function(result){
+            return resolve(result ? JSON.parse(result) : [])
         })
+        .catch(reject)
+    })
+}
+
+function setStats(id, stats){
+    return new Promise(function(resolve, reject){
+        return get(id)
+        .then(function(article){
+            //console.log("setStats article got is %s", JSON.stringify(article))
+            article.stats = stats
+            return memoryCache
+            .set(id, JSON.stringify(article))
+            .then(resolve)
+        })
+        .catch(reject)
     })
 }
 
@@ -69,16 +113,24 @@ function download(){
         .then(function(results) {
             var downloaded = results[0]
             var cached = results[1]
+            //console.log("downloaded: %s, cached: %s", JSON.stringify(downloaded), JSON.stringify(cached))
             if (downloaded) {
                 downloaded.forEach(function(news){
                     var hash = S(crypto.createHash('md5')
                         .update(news.title)
                         .digest('hex'))
                             .left(5).s;
-                    if (!cached.find(function(cn){ return cn.hash === hash })) {
-                        cached.push({ hash: hash, title: news.title})
-                        memoryCache.set(hash, JSON.stringify(news), { ttl: config.defaults.news.ttl })
-                        memoryCache.set(source, JSON.stringify(cached), { ttl: config.defaults.news.ttl })
+                    if (!cached.find(function(h){ return h === hash })) {
+                        cached.push(hash)
+                        memoryCache.set(hash, JSON.stringify({
+                            id: hash,
+                            title: news.title,
+                            img: news.urlToImage,
+                            stats: {
+                                hits: 0
+                            }
+                        }))
+                        memoryCache.set(source, JSON.stringify(cached))
                         console.log("adding news #%s :%s from source %s", hash, news.title, source)
                     }
                 })
@@ -93,5 +145,6 @@ function download(){
 module.exports = {
     get: get,
     download: download,
-    titles: titles
+    getNews: getNews,
+    setStats: setStats
 }

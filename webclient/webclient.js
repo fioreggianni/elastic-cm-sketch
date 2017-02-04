@@ -36,7 +36,7 @@ function simulateChoose(){
             console.log("CLIENT choosing in a list of %s articles...", news.length)
             var newsidx = Math.floor(Math.random() * (news.length - 1))
             console.log("CLIENT choosing article: "+ news[newsidx].title)
-            return getArticle(news[newsidx].hash)
+            return getArticle(news[newsidx].id)
             .then(function(article){
                 console.log("CLIENT reading article...")
             })
