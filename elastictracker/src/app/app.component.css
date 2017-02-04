@@ -1,0 +1,12 @@
+.container {
+  display: -webkit-flex;
+  display: flex;
+}
+nav.articles {
+  width: 500px;
+  min-width: 300px;
+}
+.news-stats {
+  -webkit-flex: 1;
+          flex: 1;
+}

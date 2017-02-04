@@ -1,0 +1,45 @@
+
+html, body {
+    height: 100%;
+}
+
+.articles-list {
+    margin: 0 0 2em 0;
+    padding: 0;
+    height: 95%;
+    background: black;
+}
+
+.article-stat {
+    font-family: monospace;
+    font-weight: bold;
+    flex: initial;
+    width:20%;
+}
+
+.article-preview {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.even {
+    background: white;
+}
+
+.odd {
+    background: whitesmoke;
+}
+
+.article-icon {
+    flex: none;
+    width: 20%;
+}
+
+.article-title {
+    flex: none;
+    width: 40%;
+    padding: 10px;
+    font-size: 0.7em;
+    font-weight: bold;
+}
